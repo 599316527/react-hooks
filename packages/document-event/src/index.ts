@@ -94,8 +94,12 @@ export function useKeyPress<K extends KeyboardEventNames>(...args: UseKeyPressAr
     useDocumentEvent(eventName, handler);
 }
 
+interface UseKeyPressingOptions {
+    fromTextarea?: boolean;
+}
 
-export function useKeyPressing(watchKeys: string[], {fromTextarea}: {fromTextarea?: boolean} = {}) {
+export function useKeyPressing(watchKeys: string[], options: UseKeyPressingOptions = {}) {
+    const {fromTextarea} = options;
     const [keyPressingMap, setKeyPressingMap] = useState({});
     const [handleKeyDown, handleKeyUp] = useMemo(
         () => {
