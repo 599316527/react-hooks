@@ -9,9 +9,9 @@ group:
 order: 2
 ---
 
-# useKeyPress
+# useKeyPressing
 
-This hook will register key bindings event listeners on `document` on component mount, and unlisten that events on unmount.
+This hook will track key pressing for you.
 
 ```typescript
 interface UseKeyPressingOptions {

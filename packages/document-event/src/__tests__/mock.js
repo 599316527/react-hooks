@@ -1,10 +1,10 @@
 
 
-const originalPlatform = navigator.platform;
+const originalPlatform = navigator.platform || 'Unknown';
 let mockedPlatform;
 Object.defineProperty(navigator, 'platform', {
     get() {
-        return mockedPlatform ?? originalPlatform;
+        return mockedPlatform || originalPlatform;
     },
 });
 

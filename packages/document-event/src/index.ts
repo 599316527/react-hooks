@@ -27,6 +27,19 @@ export function useDocumentEvent<K extends EventNames>(
     );
 }
 
+function getModifierField(key: string): string {
+    const isMac = navigator.platform.includes('Mac');
+    const keyToFieldMap = {
+        'command': isMac ? 'metaKey' : 'ctrlKey',
+        'ctrl': 'ctrlKey',
+        'shift': 'shiftKey',
+        'alt': 'altKey',
+        'meta': 'metaKey',
+        'option': 'altKey',
+    };
+    return keyToFieldMap[key];
+}
+
 function parseBinding(binding: string) {
     const [key, ...modifierKeys] = binding.toLowerCase().split('+').map(s => s.trim()).reverse();
     const modifierFields = modifierKeys.map(getModifierField);
@@ -41,18 +54,6 @@ function parseKeyPressArgs(args) {
     return [bindings, options ?? {}];
 }
 
-function getModifierField(key: string): string {
-    const isMac = navigator.platform.includes('Mac');
-    const keyToFieldMap = {
-        'command': isMac ? 'metaKey' : 'ctrlKey',
-        'ctrl': 'ctrlKey',
-        'shift': 'shiftKey',
-        'alt': 'altKey',
-        'meta': 'metaKey',
-        'option': 'altKey',
-    };
-    return keyToFieldMap[key];
-}
 
 function isInTextarea(target) {
     return target.closest('input, textarea, [contenteditable]');

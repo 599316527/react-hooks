@@ -35,30 +35,36 @@ test('trigger key combination', () => {
     const {baseElement} = render(<Foo onPressed={onPressed} />);
     userEvent.click(baseElement);
     userEvent.keyboard('{ctrl}c{/ctrl}');
+    userEvent.keyboard('{ctrl}{alt}c{/alt}{/ctrl}');
     userEvent.keyboard('abc');
+    userEvent.keyboard('{ctrl}{shift}z{/shift}{/ctrl}');
     userEvent.keyboard('{ctrl}{shift}{alt}z{/shift}{/alt}{/ctrl}');
     userEvent.keyboard('{meta}b{/meta}');
     expect(getEvents()).toEqual([
         ['c', true, false, false, false],
-        ['z', true, true, true, false],
+        ['z', true, false, true, false],
         ['b', false, false, false, true],
     ]);
 });
 
-test('trigger command key', () => {
-    const {onPressed, getEvents, clearEvents} = getHandler();
+test('trigger command key on windows', () => {
+    const {onPressed, getEvents} = getHandler();
     const {baseElement} = render(<Foo onPressed={onPressed} />);
     userEvent.click(baseElement);
-    userEvent.keyboard('v', {keyboardState: userEvent.keyboard('[ControlLeft>]')});
-    userEvent.keyboard('v', {keyboardState: userEvent.keyboard('[MetaLeft>]')});
+    userEvent.keyboard('{ctrl}v{/ctrl}');
+    userEvent.keyboard('{meta}v{/meta}');
     expect(getEvents()).toEqual([
         ['v', true, false, false, false],
     ]);
+});
 
-    clearEvents();
+test('trigger command key on mac', () => {
+    const {onPressed, getEvents} = getHandler();
     mockPlatform('MacIntel');
-    userEvent.keyboard('v', {keyboardState: userEvent.keyboard('[ControlLeft>]')});
-    userEvent.keyboard('v', {keyboardState: userEvent.keyboard('[MetaLeft>]')});
+    const {baseElement} = render(<Foo onPressed={onPressed} />);
+    userEvent.click(baseElement);
+    userEvent.keyboard('{ctrl}v{/ctrl}');
+    userEvent.keyboard('{meta}v{/meta}');
     expect(getEvents()).toEqual([
         ['v', false, false, false, true],
     ]);

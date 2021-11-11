@@ -30,4 +30,13 @@ type UseKeyPressArgs<K extends KeyboardEventNames>
 function useKeyPress<K extends KeyboardEventNames>(...args: UseKeyPressArgs<K>): void
 ```
 
+```js
+useKeyPress('Ctrl+X', () => console.log('Ctrl+X pressed'));
+```
+
+Use `+` to join modifiers and key, such as 'Ctrl+Alt+Y'. Key bindings are case-insensitive.
+Available modifiers are <kbd>Ctrl</kbd>, <kbd>Shift</kbd>, <kbd>Meta</kbd>, <kbd>Alt</kbd> (aka. <kbd>Option</kbd>) and a special modifier <kbd>Command</kbd> which refers to Ctrl/Meta on Windows/Mac.
+
+Events from textarea are ignored by default. There's an option `fromTextarea` to enable them.
+
 <code src='./demo/useKeyPress.tsx'>
