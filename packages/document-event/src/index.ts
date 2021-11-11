@@ -1,4 +1,3 @@
-import {isString} from 'lodash';
 import {useRef, useLayoutEffect, useCallback, useMemo, useState} from 'react';
 
 type EventNames = keyof DocumentEventMap;
@@ -48,7 +47,7 @@ function parseBinding(binding: string) {
 }
 
 function parseKeyPressArgs(args) {
-    const [bindingMap, options] = isString(args[0]) ? [{[args[0]]: args[1]}, args[2]] : args;
+    const [bindingMap, options] = (typeof args[0] === 'string') ? [{[args[0]]: args[1]}, args[2]] : args;
     const bindings = Object.entries(bindingMap)
         .map(([keyBinding, callback]) => ({...parseBinding(keyBinding), callback}));
     return [bindings, options ?? {}];
